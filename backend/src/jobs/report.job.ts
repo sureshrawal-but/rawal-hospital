@@ -1,5 +1,4 @@
 import PDFDocument from 'pdfkit';
-import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 import fs from 'fs';
 import path from 'path';
 import { prisma } from '../config/database';

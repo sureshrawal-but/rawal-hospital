@@ -55,7 +55,7 @@ export const getAdminDashboard = async (_req: Request, res: Response, next: Next
       });
       last7DaysRevenue.push({
         date: dayStart.toISOString().split('T')[0],
-        revenue: rev._sum.amount || 0,
+        revenue: rev._sum?.amount || 0,
       });
     }
 
@@ -63,9 +63,9 @@ export const getAdminDashboard = async (_req: Request, res: Response, next: Next
       stats: {
         totalPatients, totalDoctors, totalStaff, totalDepartments,
         totalAppointments, todayAppointments,
-        todayRevenue: todayRevenue._sum.amount || 0,
-        monthlyRevenue: monthlyRevenue._sum.amount || 0,
-        yearlyRevenue: yearlyRevenue._sum.amount || 0,
+        todayRevenue: todayRevenue._sum?.amount || 0,
+        monthlyRevenue: monthlyRevenue._sum?.amount || 0,
+        yearlyRevenue: yearlyRevenue._sum?.amount || 0,
         pendingPayments, pendingLabReports,
         availableBeds, occupiedBeds, totalBeds,
       },
@@ -90,7 +90,6 @@ export const getDoctorDashboard = async (req: Request, res: Response, next: Next
       todayAppointments, totalAppointments,
       completedAppointments, cancelledAppointments,
       totalPrescriptions, totalPatients,
-      upcomingAppointments,
     ] = await Promise.all([
       prisma.appointment.count({ where: { doctorId: doctor.id, date: { gte: startOfDay, lte: endOfDay } } }),
       prisma.appointment.count({ where: { doctorId: doctor.id } }),

@@ -182,10 +182,10 @@ export const getPaymentSummary = async (req: Request, res: Response, next: NextF
     ]);
 
     sendSuccess(res, {
-      totalRevenue: totalRevenue._sum.amount || 0,
+      totalRevenue: totalRevenue._sum?.amount || 0,
       totalPayments,
-      pendingAmount: pendingAmount._sum.total || 0,
-      todayCollection: todayCollection._sum.amount || 0,
+      pendingAmount: pendingAmount._sum?.total || 0,
+      todayCollection: todayCollection._sum?.amount || 0,
     });
   } catch (error) {
     next(error);

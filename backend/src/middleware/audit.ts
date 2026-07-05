@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../config/database';
 import { logger } from '../utils/logger';
+import { Prisma } from '@prisma/client';
 
 interface AuditOptions {
   entity?: string;
@@ -28,7 +29,7 @@ export const auditLog = (options: AuditOptions) => {
                 method: req.method,
                 path: req.originalUrl,
                 body: req.method !== 'GET' ? sanitizeBody(req.body) : undefined,
-              },
+              } as Prisma.InputJsonValue,
               ipAddress: req.ip || req.socket.remoteAddress,
               userAgent: req.headers['user-agent'],
             },
@@ -69,7 +70,7 @@ export const createAuditLog = async (
         action,
         entity,
         entityId,
-        details: details || undefined,
+        details: (details || undefined) as Prisma.InputJsonValue | undefined,
         ipAddress,
         userAgent,
       },
