@@ -146,6 +146,7 @@ model Patient {
   invoices     Invoice[]
   prescriptions Prescription[]
   labReports   LabReport[]
+  medicalRecords MedicalRecord[]
   admissions   Admission[]
   payments     Payment[]
 
