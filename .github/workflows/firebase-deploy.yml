@@ -54,11 +54,6 @@ jobs:
           cd firebase
           npx firebase deploy --only functions --project rawal-hospital --non-interactive
 
-      - name: Deploy Firebase Hosting
-        run: |
-          cd firebase
-          npx firebase deploy --only hosting --project rawal-hospital --non-interactive
-
       - name: Deploy Storage & Firestore rules
         run: |
           cd firebase
