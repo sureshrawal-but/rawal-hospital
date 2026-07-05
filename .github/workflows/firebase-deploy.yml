@@ -48,16 +48,25 @@ jobs:
           cd frontend
           npm install 2>&1
 
-      - name: Build frontend (capture log)
+      - name: Build frontend (with log capture)
+        shell: bash
         run: |
           cd frontend
+          set +e
           npm run build 2>&1 | tee ../frontend-build.log
-          exit ${PIPESTATUS[0]}
+          EXIT_CODE=${PIPESTATUS[0]}
+          set -e
+          echo "=== BUILD EXIT CODE: $EXIT_CODE ==="
+          cd ..
+          echo "=== FRONTEND BUILD LOG ==="
+          cat frontend-build.log
+          echo "=== END BUILD LOG ==="
+          exit $EXIT_CODE
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || '' }}
 
-      - name: Upload frontend build log
-        if: failure()
+      - name: Upload frontend build log (always)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build-log
