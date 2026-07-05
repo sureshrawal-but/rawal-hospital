@@ -56,11 +56,15 @@ jobs:
             exit $tsc_exit
           fi
 
-      - name: Install & build frontend
+      - name: Install frontend dependencies
         run: |
           cd frontend
-          npm install
-          npm run build
+          npm install 2>&1
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build 2>&1
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
 
