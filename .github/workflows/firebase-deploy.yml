@@ -48,18 +48,21 @@ jobs:
           cd frontend
           npm install 2>&1
 
-      - name: Frontend type check
-        run: |
-          cd frontend
-          npx tsc --noEmit 2>&1 | head -100 || true
-          echo "=== done ==="
-
       - name: Build frontend
         run: |
           cd frontend
-          NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} npm run build 2>&1
+          npx next build 2>&1
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
+
+      - name: Install & build Firebase functions
+        run: |
+          cd firebase/functions
+          npm install 2>&1
+          npx prisma generate --schema=../../backend/prisma/schema.prisma 2>&1
+          npm run build 2>&1
+        env:
+          DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
       - name: Install & build Firebase functions
         run: |
