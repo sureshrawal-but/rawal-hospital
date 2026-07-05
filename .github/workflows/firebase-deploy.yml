@@ -3,8 +3,6 @@ name: Deploy to Firebase
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 env:
@@ -28,6 +26,11 @@ jobs:
             frontend/package-lock.json
             firebase/functions/package-lock.json
 
+      - name: Decode Firebase service account
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}' > $HOME/firebase-sa.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json" >> $GITHUB_ENV
+
       - name: Install backend dependencies
         run: |
           cd backend
@@ -49,7 +52,7 @@ jobs:
           cd frontend
           npm run build
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
 
       - name: Install Firebase functions dependencies
         run: |
@@ -58,7 +61,7 @@ jobs:
           npx prisma generate --schema=../../backend/prisma/schema.prisma
           npm run build
 
-      - name: Deploy to Firebase
+      - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
@@ -66,16 +69,21 @@ jobs:
           channelId: live
           projectId: rawal-hospital
           entryPoint: ./firebase
-        env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
 
       - name: Deploy Firebase Functions
         run: |
           cd firebase
-          npx firebase deploy --only functions --project rawal-hospital
+          npx firebase deploy --only functions --project rawal-hospital --non-interactive
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
+
+      - name: Deploy Firebase Storage & Firestore rules
+        run: |
+          cd firebase
+          npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
 
       - name: Notify deployment success
         if: success()
-        run: echo "✅ Deployment to Firebase completed successfully"
+        run: echo "✅ Rawal Hospital deployed to Firebase successfully!"
