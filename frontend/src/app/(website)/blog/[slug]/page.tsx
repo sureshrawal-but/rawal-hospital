@@ -55,6 +55,10 @@ Taking care of your heart is one of the most important investments you can make 
   },
 };
 
+export function generateStaticParams() {
+  return Object.keys(blogPosts).map((slug) => ({ slug }));
+}
+
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params.slug as string;

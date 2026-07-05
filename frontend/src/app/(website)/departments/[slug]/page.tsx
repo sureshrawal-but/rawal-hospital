@@ -13,6 +13,10 @@ import { Calendar, Clock, Users, Stethoscope, MapPin, ArrowRight, CheckCircle } 
 
 const treatments = ['General Consultation', 'Advanced Diagnostics', 'Surgical Procedures', 'Preventive Care', 'Rehabilitation', 'Follow-up Care'];
 
+export function generateStaticParams() {
+  return DEPARTMENTS.map((d: { slug: string }) => ({ slug: d.slug }));
+}
+
 export default function DepartmentDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
