@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if user has role
+    function hasRole(role) {
+      return request.auth != null && request.auth.token.role == role;
+    }
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isOwner(userId) || hasRole('admin');
+      allow write: if isOwner(userId) || hasRole('admin');
+      allow create: if request.auth == null; // Registration
+    }
+
+    // Patients collection
+    match /patients/{patientId} {
+      allow read: if isOwner(patientId) || hasRole('admin') || hasRole('doctor') || hasRole('reception');
+      allow write: if isOwner(patientId) || hasRole('admin') || hasRole('reception');
+    }
+
+    // Appointments collection
+    match /appointments/{appointmentId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin') || hasRole('doctor') || hasRole('reception');
+      allow create: if isAuthenticated();
+    }
+
+    // Medical records
+    match /medicalRecords/{recordId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin') || hasRole('doctor');
+    }
+
+    // Invoices
+    match /invoices/{invoiceId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin') || hasRole('accountant') || hasRole('reception');
+    }
+
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null && (resource.data.userId == request.auth.uid || hasRole('admin'));
+      allow write: if hasRole('admin') || hasRole('doctor');
+      allow delete: if isOwner(resource.data.userId) || hasRole('admin');
+    }
+
+    // Audit logs - admin only
+    match /auditLogs/{logId} {
+      allow read: if hasRole('admin');
+      allow write: if hasRole('admin');
+    }
+
+    // Blog posts
+    match /blogPosts/{postId} {
+      allow read: if true;
+      allow write: if hasRole('admin');
+    }
+
+    // Testimonials
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if hasRole('admin');
+    }
+
+    // Contact messages
+    match /contactMessages/{messageId} {
+      allow create: if true;
+      allow read: if hasRole('admin');
+      allow write: if hasRole('admin');
+    }
+
+    // System settings - admin only
+    match /settings/{settingId} {
+      allow read: if isAuthenticated();
+      allow write: if hasRole('admin');
+    }
+
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

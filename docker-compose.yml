@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rawal-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: rawal_hospital
+      POSTGRES_USER: rawal_user
+      POSTGRES_PASSWORD: rawal_pass_2024
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - rawal-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rawal-backend
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://rawal_user:rawal_pass_2024@postgres:5432/rawal_hospital
+      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-key-rawal-hospital}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-super-secret-refresh-key-rawal-hospital}
+    depends_on:
+      - postgres
+    networks:
+      - rawal-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:5000/api
+    container_name: rawal-frontend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    networks:
+      - rawal-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: rawal-nginx
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - rawal-network
+
+volumes:
+  postgres_data:
+
+networks:
+  rawal-network:
+    driver: bridge

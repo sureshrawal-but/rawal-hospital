@@ -1,0 +1,21 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Patient documents - only authenticated users
+    match /patients/{patientId}/{fileName} {
+      allow read: if request.auth != null && (request.auth.uid == patientId || request.auth.token.role == 'admin' || request.auth.token.role == 'doctor');
+      allow write: if request.auth != null && (request.auth.uid == patientId || request.auth.token.role == 'admin');
+    }
+
+    // Reports - accessible by patients, doctors, and lab technicians
+    match /reports/{reportId}/{fileName} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (request.auth.token.role == 'lab_technician' || request.auth.token.role == 'admin');
+    }
+  }
+}

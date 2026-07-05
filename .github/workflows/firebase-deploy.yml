@@ -1,0 +1,81 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+            firebase/functions/package-lock.json
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm ci
+          npx prisma generate
+
+      - name: Build backend
+        run: |
+          cd backend
+          npm run build
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: Install Firebase functions dependencies
+        run: |
+          cd firebase/functions
+          npm ci
+          npx prisma generate --schema=../../backend/prisma/schema.prisma
+          npm run build
+
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}
+          channelId: live
+          projectId: rawal-hospital
+          entryPoint: ./firebase
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
+
+      - name: Deploy Firebase Functions
+        run: |
+          cd firebase
+          npx firebase deploy --only functions --project rawal-hospital
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Notify deployment success
+        if: success()
+        run: echo "✅ Deployment to Firebase completed successfully"

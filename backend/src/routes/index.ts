@@ -1,0 +1,44 @@
+import { Router } from 'express';
+import authRoutes from './auth.routes';
+import patientRoutes from './patient.routes';
+import doctorRoutes from './doctor.routes';
+import departmentRoutes from './department.routes';
+import appointmentRoutes from './appointment.routes';
+import medicalRecordRoutes from './medicalRecord.routes';
+import prescriptionRoutes from './prescription.routes';
+import invoiceRoutes from './invoice.routes';
+import paymentRoutes from './payment.routes';
+import pharmacyRoutes from './pharmacy.routes';
+import laboratoryRoutes from './laboratory.routes';
+import staffRoutes from './staff.routes';
+import notificationRoutes from './notification.routes';
+import blogRoutes from './blog.routes';
+import contactRoutes from './contact.routes';
+import dashboardRoutes from './dashboard.routes';
+import adminRoutes from './admin.routes';
+import bedRoutes from './bed.routes';
+import admissionRoutes from './admission.routes';
+
+const router = Router();
+
+router.use('/auth', authRoutes);
+router.use('/patients', patientRoutes);
+router.use('/doctors', doctorRoutes);
+router.use('/departments', departmentRoutes);
+router.use('/appointments', appointmentRoutes);
+router.use('/medical-records', medicalRecordRoutes);
+router.use('/prescriptions', prescriptionRoutes);
+router.use('/invoices', invoiceRoutes);
+router.use('/payments', paymentRoutes);
+router.use('/pharmacy', pharmacyRoutes);
+router.use('/laboratory', laboratoryRoutes);
+router.use('/staff', staffRoutes);
+router.use('/notifications', notificationRoutes);
+router.use('/blog', blogRoutes);
+router.use('/contact', contactRoutes);
+router.use('/dashboard', dashboardRoutes);
+router.use('/admin', adminRoutes);
+router.use('/beds', bedRoutes);
+router.use('/admissions', admissionRoutes);
+
+export default router;
