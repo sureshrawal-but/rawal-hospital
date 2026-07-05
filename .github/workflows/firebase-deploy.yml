@@ -49,14 +49,6 @@ jobs:
         env:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
-      - name: Deploy to Firebase Hosting
-        if: success()
-        run: |
-          cd firebase
-          npx firebase deploy --only hosting --project rawal-hospital --non-interactive
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
-
       - name: Deploy Firebase Functions
         if: success()
         run: |
