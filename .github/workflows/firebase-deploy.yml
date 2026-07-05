@@ -49,15 +49,10 @@ jobs:
         env:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
-      - name: Deploy Firebase Functions
+      - name: Deploy to Firebase
         run: |
           cd firebase
-          npx firebase deploy --only functions --project rawal-hospital --non-interactive
-
-      - name: Deploy Storage & Firestore rules
-        run: |
-          cd firebase
-          npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive
+          npx firebase deploy --non-interactive --project rawal-hospital
 
       - name: Notify deployment success
         if: success()
