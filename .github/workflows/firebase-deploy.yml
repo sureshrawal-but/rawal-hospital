@@ -26,12 +26,26 @@ jobs:
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}' > $HOME/firebase-sa.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json" >> $GITHUB_ENV
 
-      - name: Install & build backend
+      - name: Install backend dependencies
+        shell: bash
         run: |
           cd backend
-          npm install
-          npx prisma generate
-          npm run build
+          npm install 2>&1
+
+      - name: Prisma generate
+        shell: bash
+        run: |
+          cd backend
+          npx prisma generate 2>&1
+        env:
+          DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
+
+      - name: Build backend (TypeScript)
+        shell: bash
+        run: |
+          cd backend
+          npx tsc --noEmit 2>&1 || true
+          npm run build 2>&1
 
       - name: Install & build frontend
         run: |
