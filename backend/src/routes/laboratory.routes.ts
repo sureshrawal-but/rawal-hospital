@@ -8,7 +8,7 @@ import {
   getPatientLabReports, getLabDashboard,
 } from '../controllers/laboratory.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/dashboard', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'LAB_TECHNICIAN'), getLabDashboard);
 

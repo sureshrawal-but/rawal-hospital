@@ -5,7 +5,7 @@ import {
   getAvailableBeds, getBedStats, getWards,
 } from '../controllers/bed.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, getBeds);
 router.get('/stats', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'RECEPTIONIST', 'NURSE'), getBedStats);

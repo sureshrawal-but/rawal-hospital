@@ -4,7 +4,7 @@ import {
   getPosts, getPost, createPost, updatePost, deletePost, publishPost, getCategories,
 } from '../controllers/blog.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', getPosts);
 router.get('/categories', getCategories);

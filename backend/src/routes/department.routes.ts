@@ -7,7 +7,7 @@ import {
   getDepartmentHours, updateWorkingHours,
 } from '../controllers/department.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', getDepartments);
 router.get('/:id', getDepartment);

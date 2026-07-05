@@ -19,7 +19,7 @@ import adminRoutes from './admin.routes';
 import bedRoutes from './bed.routes';
 import admissionRoutes from './admission.routes';
 
-const router = Router();
+const router: Router = Router();
 
 router.use('/auth', authRoutes);
 router.use('/patients', patientRoutes);

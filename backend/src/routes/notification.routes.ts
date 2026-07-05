@@ -4,7 +4,7 @@ import {
   getNotifications, markAsRead, markAllAsRead, deleteNotification, getUnreadCount,
 } from '../controllers/notification.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, getNotifications);
 router.get('/unread-count', authenticate, getUnreadCount);

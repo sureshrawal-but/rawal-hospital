@@ -6,7 +6,7 @@ import {
   getDoctorTimeOff, createTimeOff, getDoctorsByDepartment,
 } from '../controllers/doctor.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', getDoctors);
 router.get('/department/:departmentId', getDoctorsByDepartment);

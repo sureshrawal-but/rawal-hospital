@@ -6,7 +6,7 @@ import {
   getPatients, getPatient, createPatient, updatePatient, deletePatient, searchPatients,
 } from '../controllers/patient.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'RECEPTIONIST', 'DOCTOR', 'NURSE'), getPatients);
 router.get('/search', authenticate, searchPatients);

@@ -10,7 +10,7 @@ import {
   forgotPassword, resetPassword, getMe, updateProfile,
 } from '../controllers/auth.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);

@@ -5,7 +5,7 @@ import {
   updateMedicalRecord, deleteMedicalRecord, getPatientRecords,
 } from '../controllers/medicalRecord.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'DOCTOR', 'NURSE'), getMedicalRecords);
 router.get('/patient/:patientId', authenticate, getPatientRecords);

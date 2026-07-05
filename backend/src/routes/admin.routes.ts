@@ -6,7 +6,7 @@ import {
   getTestimonials, createTestimonial, updateTestimonial, deleteTestimonial,
 } from '../controllers/admin.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.use(authenticate, authorize('SUPER_ADMIN', 'ADMIN'));
 

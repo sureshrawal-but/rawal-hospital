@@ -5,7 +5,7 @@ import {
   dischargePatient, getCurrentAdmissions, getAdmissionStats,
 } from '../controllers/admission.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'), getAdmissions);
 router.get('/current', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'DOCTOR', 'NURSE'), getCurrentAdmissions);

@@ -10,7 +10,7 @@ import {
   getPharmacyDashboard,
 } from '../controllers/pharmacy.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/dashboard', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'PHARMACIST'), getPharmacyDashboard);
 

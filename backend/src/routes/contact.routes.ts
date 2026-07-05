@@ -4,7 +4,7 @@ import {
   getMessages, getMessage, createMessage, deleteMessage, markAsRead, getUnreadCount,
 } from '../controllers/contact.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN'), getMessages);
 router.get('/unread-count', authenticate, authorize('SUPER_ADMIN', 'ADMIN'), getUnreadCount);

@@ -7,7 +7,7 @@ import {
   getTodayAppointments, getAppointmentsByDate, checkInAppointment, completeAppointment,
 } from '../controllers/appointment.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, getAppointments);
 router.get('/today', authenticate, getTodayAppointments);

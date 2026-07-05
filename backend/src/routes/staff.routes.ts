@@ -4,7 +4,7 @@ import {
   getStaff, getStaffMember, createStaff, updateStaff, deleteStaff, getStaffByDepartment,
 } from '../controllers/staff.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN'), getStaff);
 router.get('/department/:department', authenticate, getStaffByDepartment);

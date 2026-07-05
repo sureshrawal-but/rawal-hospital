@@ -7,7 +7,7 @@ import {
   getInvoicePayments, processRefund, getPaymentSummary,
 } from '../controllers/payment.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'), getPayments);
 router.get('/summary', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'), getPaymentSummary);

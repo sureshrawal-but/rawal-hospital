@@ -7,7 +7,7 @@ import {
   getPatientInvoices, addInvoiceItem, removeInvoiceItem,
 } from '../controllers/invoice.controller';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/', authenticate, authorize('SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT', 'RECEPTIONIST'), getInvoices);
 router.get('/patient/:patientId', authenticate, getPatientInvoices);
