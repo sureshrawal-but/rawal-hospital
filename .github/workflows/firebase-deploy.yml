@@ -23,13 +23,6 @@ jobs:
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}' > $HOME/firebase-sa.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json" >> $GITHUB_ENV
 
-      - name: Install firebase-tools
-        run: npm install -g firebase-tools 2>&1
-
-      - name: Authenticate Firebase
-        continue-on-error: true
-        run: npx firebase projects:list --non-interactive 2>&1
-
       - name: Build backend
         run: |
           cd backend
@@ -56,24 +49,11 @@ jobs:
         env:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
-      - name: Deploy Firebase Functions
-        if: success()
+      - name: Deploy to Firebase
         continue-on-error: true
         run: |
           cd firebase
-          echo "=== Testing gcloud access ==="
-          gcloud functions list --project rawal-hospital 2>&1 || echo "GCLOUD_FUNCTIONS_EXIT: $?"
-          echo "=== Deploying via firebase ==="
-          npx firebase deploy --only functions --project rawal-hospital --non-interactive 2>&1
-          echo "FIREBASE_DEPLOY_EXIT: $?"
-
-      - name: Deploy Firebase Storage & Firestore rules
-        if: success()
-        run: |
-          cd firebase
-          npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
+          npx firebase deploy --non-interactive --project rawal-hospital 2>&1
 
       - name: Notify deployment success
         if: success()
