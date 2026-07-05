@@ -48,10 +48,16 @@ jobs:
           cd frontend
           npm install 2>&1
 
+      - name: Frontend type check
+        run: |
+          cd frontend
+          npx tsc --noEmit 2>&1 | head -100 || true
+          echo "=== done ==="
+
       - name: Build frontend
         run: |
           cd frontend
-          npm run build 2>&1
+          NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL} npm run build 2>&1
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
 
