@@ -10,7 +10,7 @@ import { USER_ROLES } from '@/lib/constants';
 import {
   LayoutDashboard, Calendar, Users, UserCircle, Stethoscope, Pill, FlaskConical,
   FileText, Settings, CreditCard, Activity, ChevronDown, LogOut, Menu,
-  Hospital, Syringe, HeartPulse, ClipboardList, DollarSign, Shield,
+  Building2, Syringe, HeartPulse, ClipboardList, DollarSign, Shield,
   X, ChevronLeft, ShoppingCart
 } from 'lucide-react';
 import Avatar from '@/components/ui/Avatar';
@@ -45,7 +45,7 @@ export default function Sidebar() {
           { label: 'Doctors', href: '/dashboard/admin/doctors', icon: <Stethoscope className="h-5 w-5" /> },
           { label: 'Patients', href: '/dashboard/admin/patients', icon: <Users className="h-5 w-5" /> },
           { label: 'Staff', href: '/dashboard/admin/staff', icon: <UserCircle className="h-5 w-5" /> },
-          { label: 'Departments', href: '/dashboard/admin/departments', icon: <Hospital className="h-5 w-5" /> },
+          { label: 'Departments', href: '/dashboard/admin/departments', icon: <Building2 className="h-5 w-5" /> },
           { label: 'Appointments', href: '/dashboard/admin/appointments', icon: <Calendar className="h-5 w-5" /> },
           { label: 'Reports', href: '/dashboard/admin/reports', icon: <FileText className="h-5 w-5" /> },
           { label: 'Settings', href: '/dashboard/admin/settings', icon: <Settings className="h-5 w-5" /> },
@@ -241,4 +241,4 @@ export default function Sidebar() {
   );
 }
 
-function ShoppingCart(props: any) { return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>}
+

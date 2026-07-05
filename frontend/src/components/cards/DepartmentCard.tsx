@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { ArrowRight, Heart, Brain, Bone, Baby, Activity, Venus, Eye, Tooth, Ambulance, Scan, Lungs, EyeOff } from 'lucide-react';
+import { ArrowRight, Heart, Brain, Bone, Baby, Activity, Eye, Ambulance, Scan, EyeOff } from 'lucide-react';
 import { ComponentType } from 'react';
 
 interface DepartmentCardProps {
@@ -16,7 +16,7 @@ interface DepartmentCardProps {
 }
 
 const iconMap: Record<string, ComponentType<any>> = {
-  Heart, Brain, Bone, Baby, Activity, Venus, Eye, Tooth, Ambulance, Scan, Lungs,
+  Heart, Brain, Bone, Baby, Activity, Eye, Ambulance, Scan,
 };
 
 export default function DepartmentCard({ name, slug, description, icon, doctorCount, className }: DepartmentCardProps) {
