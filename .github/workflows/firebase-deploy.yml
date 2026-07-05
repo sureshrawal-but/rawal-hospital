@@ -58,9 +58,14 @@ jobs:
 
       - name: Deploy Firebase Functions
         if: success()
+        continue-on-error: true
         run: |
           cd firebase
+          echo "=== Testing gcloud access ==="
+          gcloud functions list --project rawal-hospital 2>&1 || echo "GCLOUD_FUNCTIONS_EXIT: $?"
+          echo "=== Deploying via firebase ==="
           npx firebase deploy --only functions --project rawal-hospital --non-interactive 2>&1
+          echo "FIREBASE_DEPLOY_EXIT: $?"
 
       - name: Deploy Firebase Storage & Firestore rules
         if: success()
