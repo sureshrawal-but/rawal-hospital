@@ -51,13 +51,11 @@ jobs:
 
       - name: Deploy to Firebase Hosting
         if: success()
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}
-          channelId: live
-          projectId: rawal-hospital
-          entryPoint: ./firebase
+        run: |
+          cd firebase
+          npx firebase deploy --only hosting --project rawal-hospital --non-interactive
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
 
       - name: Deploy Firebase Functions
         if: success()
