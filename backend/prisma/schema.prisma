@@ -188,6 +188,8 @@ model Doctor {
   prescriptions     Prescription[]
   availability      DoctorAvailability[]
   timeOff           DoctorTimeOff[]
+  medicalRecords    MedicalRecord[]
+  admissions        Admission[]
 
   @@index([specialization])
   @@index([departmentId])
@@ -213,6 +215,7 @@ model Department {
   treatments  Treatment[]
   facilities  DepartmentFacility[]
   workingHours DepartmentWorkingHours[]
+  appointments Appointment[]
 }
 
 model Treatment {
@@ -578,6 +581,7 @@ model Payment {
   paymentNo       String        @unique
   invoiceId       String        @unique
   patientId       String
+  pharmacySaleId  String?       @unique
   amount          Float
   paymentMode     String
   transactionId   String?
@@ -590,7 +594,7 @@ model Payment {
 
   invoice       Invoice       @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   patient       Patient       @relation(fields: [patientId], references: [id])
-  pharmacySale  PharmacySale?
+  pharmacySale  PharmacySale? @relation(fields: [pharmacySaleId], references: [id])
 
   @@index([paymentNo])
   @@index([invoiceId])
