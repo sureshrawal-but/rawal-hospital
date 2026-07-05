@@ -51,7 +51,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          node scripts/debug-build.js
+          npm run build
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
 
