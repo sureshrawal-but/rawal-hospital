@@ -43,9 +43,18 @@ jobs:
       - name: Build backend (TypeScript)
         shell: bash
         run: |
+          set +e
           cd backend
-          npx tsc --noEmit 2>&1 || true
-          npm run build 2>&1
+          npx tsc > /tmp/tsc-output.txt 2>&1
+          tsc_exit=$?
+          echo "=== tsc exit code: $tsc_exit ==="
+          echo "=== Build output start ==="
+          cat /tmp/tsc-output.txt
+          echo "=== Build output end ==="
+          if [ $tsc_exit -ne 0 ]; then
+            echo "tsc compilation failed"
+            exit $tsc_exit
+          fi
 
       - name: Install & build frontend
         run: |
