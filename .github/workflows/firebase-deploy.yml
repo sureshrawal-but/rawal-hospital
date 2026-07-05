@@ -62,9 +62,19 @@ jobs:
           npm install 2>&1
 
       - name: Build frontend
+        shell: bash
         run: |
+          set +e
           cd frontend
-          npm run build 2>&1
+          npx next build > /tmp/next-build.log 2>&1
+          build_exit=$?
+          echo "=== BUILD EXIT CODE: $build_exit ==="
+          echo "=== LAST 200 LINES OF BUILD OUTPUT ==="
+          tail -200 /tmp/next-build.log
+          echo "=== END BUILD OUTPUT ==="
+          if [ $build_exit -ne 0 ]; then
+            exit $build_exit
+          fi
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
 
