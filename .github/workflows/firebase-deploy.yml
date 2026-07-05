@@ -48,12 +48,20 @@ jobs:
           cd frontend
           npm install 2>&1
 
-      - name: Build frontend
+      - name: Build frontend (capture log)
         run: |
           cd frontend
-          npm run build
+          npm run build 2>&1 | tee ../frontend-build.log
+          exit ${PIPESTATUS[0]}
         env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://us-central1-rawal-hospital.cloudfunctions.net/api/api/v1' }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || '' }}
+
+      - name: Upload frontend build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build-log
+          path: frontend-build.log
 
       - name: Install & build Firebase functions
         run: |
@@ -64,14 +72,8 @@ jobs:
         env:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
-      - name: Install & build Firebase functions
-        run: |
-          cd firebase/functions
-          npm install
-          npx prisma generate --schema=../../backend/prisma/schema.prisma
-          npm run build
-
       - name: Deploy to Firebase Hosting
+        if: success()
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
@@ -81,6 +83,7 @@ jobs:
           entryPoint: ./firebase
 
       - name: Deploy Firebase Functions
+        if: success()
         run: |
           cd firebase
           npx firebase deploy --only functions --project rawal-hospital --non-interactive
@@ -88,6 +91,7 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: $HOME/firebase-sa.json
 
       - name: Deploy Firebase Storage & Firestore rules
+        if: success()
         run: |
           cd firebase
           npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive
@@ -96,4 +100,4 @@ jobs:
 
       - name: Notify deployment success
         if: success()
-        run: echo "✅ Rawal Hospital deployed to Firebase successfully!"
+        run: echo "Rawal Hospital deployed to Firebase successfully!"
