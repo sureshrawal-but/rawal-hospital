@@ -53,13 +53,14 @@ jobs:
 
       - name: Deploy Cloud Function
         run: |
+          cd firebase/functions
           gcloud functions deploy api \
             --gen2 \
             --runtime nodejs20 \
             --trigger-http \
             --allow-unauthenticated \
             --entry-point api \
-            --source firebase/functions \
+            --source . \
             --project rawal-hospital \
             --quiet
 
