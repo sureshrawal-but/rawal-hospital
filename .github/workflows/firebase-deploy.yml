@@ -66,6 +66,20 @@ jobs:
             --project rawal-hospital \
             --quiet 2>&1
 
+      - name: Show Function URL
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo "=== Function URL ==="
+          gcloud functions describe api --gen2 --region us-central1 --project rawal-hospital --format="value(url)" 2>&1
+          echo "=== Cloud Run URL ==="
+          gcloud run services describe api --region us-central1 --project rawal-hospital --format="value(status.url)" 2>&1
+
+      - name: Test API Health
+        continue-on-error: true
+        run: |
+          curl -s -o /dev/null -w "HTTP %{http_code} -> %{redirect_url}\n" https://us-central1-rawal-hospital.cloudfunctions.net/api/api/health 2>&1 || true
+
       - name: Build & Deploy Firebase Hosting
         continue-on-error: true
         run: |
