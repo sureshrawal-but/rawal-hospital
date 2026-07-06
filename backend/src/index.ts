@@ -46,18 +46,21 @@ app.get('/api/health', (_req, res) => {
 
 app.use(errorHandler);
 
-const startServer = async () => {
-  await connectDatabase();
-  app.listen(config.port, () => {
-    logger.info(`Rawal Hospital API running on port ${config.port} in ${config.nodeEnv} mode`);
-    console.log(`Server: http://localhost:${config.port}`);
-    console.log(`Health: http://localhost:${config.port}/api/health`);
-  });
-};
-
-startServer().catch((error) => {
-  logger.error('Failed to start server:', error);
-  process.exit(1);
-});
-
 export default app;
+
+// Only start the server in non-serverless environments
+if (!process.env.VERCEL) {
+  const startServer = async () => {
+    await connectDatabase();
+    app.listen(config.port, () => {
+      logger.info(`Rawal Hospital API running on port ${config.port} in ${config.nodeEnv} mode`);
+      console.log(`Server: http://localhost:${config.port}`);
+      console.log(`Health: http://localhost:${config.port}/api/health`);
+    });
+  };
+
+  startServer().catch((error) => {
+    logger.error('Failed to start server:', error);
+    process.exit(1);
+  });
+}
