@@ -16,3 +16,6 @@ uploads/*
 !uploads/.gitkeep
 .vercel
 .env*
+
+# ncc build output (generated during vercel-build)
+backend/api/
