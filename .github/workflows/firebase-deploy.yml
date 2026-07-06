@@ -70,7 +70,12 @@ jobs:
         continue-on-error: true
         run: |
           cd firebase
+          echo "=== Creating hosting site if needed ==="
+          npx firebase hosting:sites:create rawal-hospital --project rawal-hospital --non-interactive 2>&1 || echo "Site may already exist"
+          echo "=== Deploying hosting ==="
           npx firebase deploy --only hosting --project rawal-hospital --non-interactive 2>&1
+          echo "=== Hosting URLs ==="
+          npx firebase hosting:channel:list --project rawal-hospital --non-interactive 2>&1 || true
 
       - name: Deploy Storage & Firestore rules
         continue-on-error: true
