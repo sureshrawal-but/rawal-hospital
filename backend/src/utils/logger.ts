@@ -32,16 +32,21 @@ const format = winston.format.combine(
   winston.format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
 );
 
-const transports = [
+const transports: winston.transport[] = [
   new winston.transports.Console(),
-  new winston.transports.File({
-    filename: path.join(logDir, 'error.log'),
-    level: 'error',
-  }),
-  new winston.transports.File({
-    filename: path.join(logDir, 'all.log'),
-  }),
 ];
+
+if (!process.env.VERCEL) {
+  transports.push(
+    new winston.transports.File({
+      filename: path.join(logDir, 'error.log'),
+      level: 'error',
+    }),
+    new winston.transports.File({
+      filename: path.join(logDir, 'all.log'),
+    }),
+  );
+}
 
 export const logger = winston.createLogger({
   level: level(),
