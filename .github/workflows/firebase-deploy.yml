@@ -18,9 +18,10 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Decode Firebase service account
+      - name: Decode & authenticate with Google Cloud
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}' > $HOME/firebase-sa.json
+          gcloud auth activate-service-account --key-file=$HOME/firebase-sa.json 2>&1
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json" >> $GITHUB_ENV
 
       - name: Build backend
@@ -51,9 +52,8 @@ jobs:
 
       - name: Deploy to Firebase
         run: |
-          npm install -g firebase-tools
           cd firebase
-          firebase deploy --non-interactive --project rawal-hospital
+          npx firebase deploy --non-interactive --project rawal-hospital 2>&1
 
       - name: Notify deployment success
         if: success()
