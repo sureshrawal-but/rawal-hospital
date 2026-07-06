@@ -71,6 +71,20 @@ jobs:
         run: |
           npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive 2>&1
 
+      - name: Run database migrations
+        run: |
+          cd backend
+          npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Seed database
+        run: |
+          cd backend
+          npx prisma db seed
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Notify deployment success
         if: success()
         run: echo "Rawal Hospital deployed to Firebase successfully!"
