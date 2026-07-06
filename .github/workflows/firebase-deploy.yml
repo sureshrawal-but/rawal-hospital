@@ -74,7 +74,7 @@ jobs:
       - name: Run database migrations
         run: |
           cd backend
-          npx prisma migrate deploy
+          npx prisma db push --accept-data-loss
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
