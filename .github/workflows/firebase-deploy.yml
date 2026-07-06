@@ -18,18 +18,12 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Decode & authenticate
+      - name: Authenticate with Google Cloud
         run: |
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_RAWAL_HOSPITAL }}' > $HOME/firebase-sa.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase-sa.json" >> $GITHUB_ENV
-          gcloud auth activate-service-account --key-file=$HOME/firebase-sa.json 2>&1 || echo "GCLOUD_AUTH_WARN: gcloud not available, will try ADC"
-          gcloud config set project rawal-hospital 2>&1 || true
-
-      - name: Install firebase-tools
-        run: npm install -g firebase-tools 2>&1
-
-      - name: Authenticate Firebase
-        run: npx firebase projects:list --non-interactive 2>&1
+          gcloud auth activate-service-account --key-file=$HOME/firebase-sa.json
+          gcloud config set project rawal-hospital
 
       - name: Build backend
         run: |
@@ -57,25 +51,21 @@ jobs:
         env:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
-      - name: Deploy to Firebase
-        continue-on-error: true
-        shell: bash
+      - name: Deploy Cloud Function
         run: |
-          cd firebase/functions
-          echo "=== 1. Deploy api function with gcloud ==="
           gcloud functions deploy api \
             --gen2 \
             --runtime nodejs20 \
             --trigger-http \
             --allow-unauthenticated \
             --entry-point api \
-            --source . \
+            --source firebase/functions \
             --project rawal-hospital \
-            --quiet 2>&1
-          echo "GCLOUD_FUNCTIONS_EXIT: $?"
-          echo "=== 2. List deployed functions ==="
-          gcloud functions list --project rawal-hospital 2>&1
-          echo "GCLOUD_LIST_EXIT: $?"
+            --quiet
+
+      - name: Deploy Storage & Firestore rules
+        run: |
+          npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive
 
       - name: Notify deployment success
         if: success()
