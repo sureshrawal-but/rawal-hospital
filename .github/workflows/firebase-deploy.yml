@@ -66,6 +66,12 @@ jobs:
             --project rawal-hospital \
             --quiet 2>&1
 
+      - name: Deploy Firebase Hosting
+        continue-on-error: true
+        run: |
+          cd firebase
+          npx firebase deploy --only hosting --project rawal-hospital --non-interactive 2>&1
+
       - name: Deploy Storage & Firestore rules
         continue-on-error: true
         run: |
