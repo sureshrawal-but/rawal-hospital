@@ -50,22 +50,10 @@ jobs:
           DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
 
       - name: Deploy to Firebase
-        shell: bash
         run: |
+          npm install -g firebase-tools
           cd firebase
-          set +e
-          npx firebase deploy --non-interactive --project rawal-hospital > deploy.log 2>&1
-          exit_code=$?
-          set -e
-          cat deploy.log
-          exit $exit_code
-
-      - name: Upload deploy log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: deploy-log
-          path: firebase/deploy.log
+          firebase deploy --non-interactive --project rawal-hospital
 
       - name: Notify deployment success
         if: success()
