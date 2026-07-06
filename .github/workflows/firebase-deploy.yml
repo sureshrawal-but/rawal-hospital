@@ -61,24 +61,21 @@ jobs:
         continue-on-error: true
         shell: bash
         run: |
-          cd firebase
-          echo "=== 1. gcloud auth test ==="
-          gcloud auth list 2>&1
-          echo "=== 2. Deploy functions with gcloud ==="
-          cd functions
+          cd firebase/functions
+          echo "=== 1. Deploy api function with gcloud ==="
           gcloud functions deploy api \
             --gen2 \
             --runtime nodejs20 \
             --trigger-http \
+            --allow-unauthenticated \
             --entry-point api \
             --source . \
             --project rawal-hospital \
             --quiet 2>&1
-          echo "GCLOUD_EXIT: $?"
-          echo "=== 3. Deploy storage/firestore with firebase ==="
-          cd ..
-          npx firebase deploy --only storage,firestore:rules --project rawal-hospital --non-interactive 2>&1
-          echo "FIREBASE_EXIT: $?"
+          echo "GCLOUD_FUNCTIONS_EXIT: $?"
+          echo "=== 2. List deployed functions ==="
+          gcloud functions list --project rawal-hospital 2>&1
+          echo "GCLOUD_LIST_EXIT: $?"
 
       - name: Notify deployment success
         if: success()
