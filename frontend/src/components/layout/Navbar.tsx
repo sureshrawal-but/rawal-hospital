@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { HOSPITAL_INFO, ROUTES } from '@/lib/constants';
-import { Menu, X, Phone, ChevronDown, User, LogOut, Calendar, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, LogOut, Calendar, LayoutDashboard, Building2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { useAuth } from '@/hooks/useAuth';
-import { useAppStore } from '@/store/appStore';
 import Avatar from '@/components/ui/Avatar';
 
 const navLinks = [
@@ -20,23 +19,34 @@ const navLinks = [
   { href: ROUTES.contact, label: 'Contact' },
 ];
 
+const menuVariants = {
+  closed: { opacity: 0, x: '100%' },
+  open: { opacity: 1, x: 0, transition: { type: 'spring', damping: 25, stiffness: 200 } },
+};
+
+const itemVariants = {
+  closed: { opacity: 0, x: 20 },
+  open: (i: number) => ({ opacity: 1, x: 0, transition: { delay: i * 0.05 } }),
+};
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
-  const { setMobileMenuOpen } = useAppStore();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleMobileToggle = () => {
-    setMobileOpen(!mobileOpen);
-    setMobileMenuOpen(!mobileOpen);
-  };
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   return (
     <header
@@ -49,18 +59,16 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-700 flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg font-heading">R</span>
+              <Building2 className="h-5 w-5 text-white" />
             </div>
-            <div>
+            <div className="hidden xs:block">
               <span className="text-lg font-bold text-gray-900 font-heading">Rawal</span>
               <span className="text-lg font-bold text-primary font-heading">Hospital</span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
@@ -73,17 +81,15 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Right side */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href={`tel:${HOSPITAL_INFO.emergency}`}
               className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors"
             >
-              <Phone className="h-4 w-4 animate-pulse" />
+              <Phone className="h-4 w-4 animate-pulse shrink-0" />
               <span className="hidden xl:inline">Emergency: {HOSPITAL_INFO.emergency}</span>
               <span className="xl:hidden">Emergency</span>
             </a>
-
             {isAuthenticated ? (
               <div className="relative">
                 <button
@@ -91,131 +97,101 @@ export default function Navbar() {
                   className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors"
                 >
                   <Avatar name={`${user?.firstName} ${user?.lastName}`} size="sm" />
-                  <span className="text-sm font-medium text-gray-700">
-                    {user?.firstName}
-                  </span>
-                  <ChevronDown className={cn('h-4 w-4 text-gray-400 transition-transform', dropdownOpen && 'rotate-180')} />
+                  <span className="text-sm font-medium text-gray-700 hidden md:block">{user?.firstName}</span>
+                  <ChevronDown className={cn('h-4 w-4 text-gray-400 transition-transform shrink-0', dropdownOpen && 'rotate-180')} />
                 </button>
                 <AnimatePresence>
                   {dropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2"
                     >
                       <div className="px-4 py-3 border-b border-gray-50">
-                        <p className="text-sm font-semibold text-gray-900">
-                          {user?.firstName} {user?.lastName}
-                        </p>
+                        <p className="text-sm font-semibold text-gray-900 truncate">{user?.firstName} {user?.lastName}</p>
                         <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
                       </div>
-                      <Link
-                        href="/dashboard"
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <LayoutDashboard className="h-4 w-4" />
-                        Dashboard
+                      <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                        <LayoutDashboard className="h-4 w-4" /> Dashboard
                       </Link>
-                      <Link
-                        href="/appointments"
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                        onClick={() => setDropdownOpen(false)}
-                      >
-                        <Calendar className="h-4 w-4" />
-                        My Appointments
+                      <Link href="/appointments" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                        <Calendar className="h-4 w-4" /> My Appointments
                       </Link>
-                      <button
-                        onClick={() => { logout(); setDropdownOpen(false); }}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full"
-                      >
-                        <LogOut className="h-4 w-4" />
-                        Logout
+                      <button onClick={() => { logout(); setDropdownOpen(false); }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full">
+                        <LogOut className="h-4 w-4" /> Logout
                       </button>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <Link href={ROUTES.login}>
-                  <Button variant="ghost" size="sm">Login</Button>
-                </Link>
-                <Link href={ROUTES.register}>
-                  <Button size="sm">Register</Button>
-                </Link>
+              <div className="flex items-center gap-2">
+                <Link href={ROUTES.login}><Button variant="ghost" size="sm">Login</Button></Link>
+                <Link href={ROUTES.register}><Button size="sm">Register</Button></Link>
               </div>
             )}
           </div>
 
-          {/* Mobile menu button */}
           <button
-            onClick={handleMobileToggle}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="Toggle mobile menu"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2.5 rounded-xl hover:bg-white/20 transition-colors"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile navigation */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-100 overflow-hidden"
+            variants={menuVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="fixed inset-0 top-16 lg:hidden bg-white z-40 overflow-y-auto"
           >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={handleMobileToggle}
-                  className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary rounded-xl transition-colors"
-                >
-                  {link.label}
-                </Link>
+            <div className="px-4 py-6 space-y-1">
+              {navLinks.map((link, i) => (
+                <motion.div key={link.href} custom={i} variants={itemVariants} initial="closed" animate="open">
+                  <Link
+                    href={link.href}
+                    onClick={closeMobile}
+                    className="block px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 hover:text-primary rounded-xl transition-colors active:bg-primary-100"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
-              <hr className="my-3" />
+              <hr className="my-4" />
               {isAuthenticated ? (
                 <>
-                  <Link
-                    href="/dashboard"
-                    onClick={handleMobileToggle}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-primary-50 rounded-xl"
-                  >
-                    <LayoutDashboard className="h-4 w-4" />
-                    Dashboard
+                  <Link href="/dashboard" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 rounded-xl">
+                    <LayoutDashboard className="h-5 w-5" /> Dashboard
                   </Link>
-                  <button
-                    onClick={() => { logout(); handleMobileToggle(); }}
-                    className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl w-full"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Logout
+                  <Link href="/appointments" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 rounded-xl">
+                    <Calendar className="h-5 w-5" /> My Appointments
+                  </Link>
+                  <button onClick={() => { logout(); closeMobile(); }} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-red-600 hover:bg-red-50 rounded-xl w-full">
+                    <LogOut className="h-5 w-5" /> Logout
                   </button>
                 </>
               ) : (
-                <div className="flex gap-3 pt-2">
-                  <Link href={ROUTES.login} onClick={handleMobileToggle} className="flex-1">
-                    <Button variant="outline" className="w-full" size="sm">Login</Button>
+                <div className="flex flex-col gap-3 pt-2 px-2">
+                  <Link href={ROUTES.login} onClick={closeMobile}>
+                    <Button variant="outline" className="w-full justify-center py-3">Login</Button>
                   </Link>
-                  <Link href={ROUTES.register} onClick={handleMobileToggle} className="flex-1">
-                    <Button className="w-full" size="sm">Register</Button>
+                  <Link href={ROUTES.register} onClick={closeMobile}>
+                    <Button className="w-full justify-center py-3">Register</Button>
                   </Link>
                 </div>
               )}
-              <a
-                href={`tel:${HOSPITAL_INFO.emergency}`}
-                className="flex items-center justify-center gap-2 mt-3 px-4 py-3 bg-red-50 text-red-600 rounded-xl text-sm font-medium"
-              >
-                <Phone className="h-4 w-4" />
-                Emergency: {HOSPITAL_INFO.emergency}
-              </a>
+              <div className="mt-6 px-2">
+                <a href={`tel:${HOSPITAL_INFO.emergency}`} className="flex items-center justify-center gap-2 px-4 py-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium active:bg-red-100">
+                  <Phone className="h-5 w-5" /> Emergency: {HOSPITAL_INFO.emergency}
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
