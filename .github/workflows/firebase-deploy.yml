@@ -79,6 +79,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Seed database
+        continue-on-error: true
         run: |
           cd backend
           npx prisma db seed
