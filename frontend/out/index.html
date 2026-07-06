@@ -1,1 +1,58 @@
-<!DOCTYPE html><html><head><title>Rawal Hospital</title><meta http-equiv='refresh' content='0;url=/api/health' /></head><body><p>Rawal Hospital - Under maintenance</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rawal Hospital</title>
+  <meta name="description" content="Rawal Hospital - Multi-speciality Healthcare">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f4f8; color: #1a202c; min-height: 100vh; display: flex; flex-direction: column; }
+    .hero { background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%); color: white; padding: 60px 20px; text-align: center; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 12px; }
+    .hero p { font-size: 1.1rem; opacity: 0.9; }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; flex: 1; }
+    .card { background: white; border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .card h2 { color: #2b6cb0; margin-bottom: 16px; font-size: 1.3rem; }
+    .card p { color: #4a5568; line-height: 1.6; margin-bottom: 12px; }
+    .btn { display: inline-block; background: #2b6cb0; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; margin: 8px 8px 0 0; transition: background 0.2s; }
+    .btn:hover { background: #1a365d; }
+    .btn-outline { background: transparent; border: 2px solid #2b6cb0; color: #2b6cb0; }
+    .btn-outline:hover { background: #2b6cb0; color: white; }
+    .status { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+    .status-item { flex: 1; min-width: 120px; background: #ebf4ff; border-radius: 8px; padding: 16px; text-align: center; }
+    .status-item .label { font-size: 0.85rem; color: #718096; }
+    .status-item .value { font-size: 1rem; color: #2b6cb0; font-weight: 700; }
+    footer { text-align: center; padding: 24px; color: #718096; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>🏥 Rawal Hospital</h1>
+    <p>Multi-speciality Healthcare Management System</p>
+  </div>
+  <div class="container">
+    <div class="card">
+      <h2>System Status</h2>
+      <p>The hospital management system is deployed and operational.</p>
+      <div class="status">
+        <div class="status-item"><div class="label">API</div><div class="value">✅ Online</div></div>
+        <div class="status-item"><div class="label">Database</div><div class="value">✅ Connected</div></div>
+        <div class="status-item"><div class="label">Auth</div><div class="value">✅ Ready</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Quick Links</h2>
+      <p>Access the hospital management system dashboard and website.</p>
+      <a class="btn" href="#" onclick="alert('Frontend app coming soon. API is live at the URL below.')">Dashboard</a>
+      <a class="btn btn-outline" href="https://us-central1-rawal-hospital.cloudfunctions.net/api/api-docs" target="_blank">API Docs</a>
+    </div>
+    <div class="card">
+      <h2>Contact</h2>
+      <p>For support or inquiries about the Rawal Hospital HMS deployment:</p>
+      <p>API Endpoint: <code>https://us-central1-rawal-hospital.cloudfunctions.net/api</code></p>
+    </div>
+  </div>
+  <footer>&copy; 2024 Rawal Hospital. All rights reserved.</footer>
+</body>
+</html>

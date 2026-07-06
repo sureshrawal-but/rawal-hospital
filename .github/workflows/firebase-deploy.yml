@@ -66,7 +66,7 @@ jobs:
             --project rawal-hospital \
             --quiet 2>&1
 
-      - name: Deploy Firebase Hosting
+      - name: Build & Deploy Firebase Hosting
         continue-on-error: true
         run: |
           cd firebase
