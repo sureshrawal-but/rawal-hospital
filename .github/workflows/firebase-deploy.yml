@@ -70,10 +70,10 @@ jobs:
         continue-on-error: true
         shell: bash
         run: |
-          echo "=== Function URL ==="
-          gcloud functions describe api --gen2 --region us-central1 --project rawal-hospital --format="value(url)" 2>&1
-          echo "=== Cloud Run URL ==="
-          gcloud run services describe api --region us-central1 --project rawal-hospital --format="value(status.url)" 2>&1
+          echo "=== All functions ==="
+          gcloud functions list --project rawal-hospital 2>&1
+          echo "=== API function details ==="
+          gcloud functions describe api --region us-central1 --project rawal-hospital --format="json" 2>&1 || gcloud functions describe api --region us-east1 --project rawal-hospital --format="json" 2>&1
 
       - name: Test API Health
         continue-on-error: true
