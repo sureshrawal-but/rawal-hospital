@@ -14,6 +14,16 @@ import { logger } from './utils/logger';
 
 const app = express();
 
+// Vercel strips the /api prefix from serverless function URLs, so restore it
+if (process.env.VERCEL) {
+  app.use((req, _res, next) => {
+    if (req.url && !req.url.startsWith('/api')) {
+      req.url = '/api' + req.url;
+    }
+    next();
+  });
+}
+
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
   origin: config.frontendUrl,
