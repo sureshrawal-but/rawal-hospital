@@ -14,6 +14,10 @@ import { logger } from './utils/logger';
 
 const app = express();
 
+app.get('/', (_req, res) => {
+  res.json({ success: true, message: 'Rawal Hospital API', docs: '/api/health', frontend: config.frontendUrl });
+});
+
 // Vercel strips the /api prefix from serverless function URLs, so restore it
 if (process.env.VERCEL) {
   app.use((req, _res, next) => {
