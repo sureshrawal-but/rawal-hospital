@@ -11,10 +11,10 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles = {
-  default: 'bg-white shadow-sm border border-gray-100',
-  glass: 'bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg',
-  bordered: 'bg-white border-2 border-primary-100',
-  elevated: 'bg-white shadow-xl border border-gray-50',
+  default: 'bg-dark-700 border border-gray-700/50 shadow-lg',
+  glass: 'bg-dark-700/70 backdrop-blur-xl border border-gray-700/30 shadow-lg',
+  bordered: 'bg-dark-700 border-2 border-primary-500/20',
+  elevated: 'bg-dark-600 shadow-xl border border-gray-700/30',
 };
 
 const paddingStyles = {

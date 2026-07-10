@@ -67,34 +67,34 @@ export function generateId(): string {
 
 export function getStatusColor(status: string): string {
   const colors: Record<string, string> = {
-    scheduled: 'bg-blue-100 text-blue-800',
-    confirmed: 'bg-green-100 text-green-800',
-    checked_in: 'bg-yellow-100 text-yellow-800',
-    in_progress: 'bg-purple-100 text-purple-800',
-    completed: 'bg-gray-100 text-gray-800',
-    cancelled: 'bg-red-100 text-red-800',
-    no_show: 'bg-orange-100 text-orange-800',
-    active: 'bg-green-100 text-green-800',
-    inactive: 'bg-gray-100 text-gray-800',
-    paid: 'bg-green-100 text-green-800',
-    unpaid: 'bg-red-100 text-red-800',
-    pending: 'bg-yellow-100 text-yellow-800',
-    refunded: 'bg-blue-100 text-blue-800',
+    scheduled: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    confirmed: 'bg-green-500/10 text-green-400 border-green-500/20',
+    checked_in: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    in_progress: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+    completed: 'bg-dark-600 text-gray-300 border-gray-700',
+    cancelled: 'bg-red-500/10 text-red-400 border-red-500/20',
+    no_show: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+    active: 'bg-green-500/10 text-green-400 border-green-500/20',
+    inactive: 'bg-dark-600 text-gray-300 border-gray-700',
+    paid: 'bg-green-500/10 text-green-400 border-green-500/20',
+    unpaid: 'bg-red-500/10 text-red-400 border-red-500/20',
+    pending: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    refunded: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   };
-  return colors[status] || 'bg-gray-100 text-gray-800';
+  return colors[status] || 'bg-dark-600 text-gray-300 border-gray-700';
 }
 
 export function getRoleColor(role: string): string {
   const colors: Record<string, string> = {
-    admin: 'bg-purple-100 text-purple-800',
-    doctor: 'bg-blue-100 text-blue-800',
-    patient: 'bg-green-100 text-green-800',
-    reception: 'bg-yellow-100 text-yellow-800',
-    pharmacist: 'bg-pink-100 text-pink-800',
-    lab_technician: 'bg-indigo-100 text-indigo-800',
-    nurse: 'bg-teal-100 text-teal-800',
+    admin: 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+    doctor: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+    patient: 'bg-green-500/10 text-green-400 border-green-500/20',
+    reception: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    pharmacist: 'bg-pink-500/10 text-pink-400 border-pink-500/20',
+    lab_technician: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+    nurse: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
   };
-  return colors[role] || 'bg-gray-100 text-gray-800';
+  return colors[role] || 'bg-dark-600 text-gray-300 border-gray-700';
 }
 
 export function getTimeFromDate(date: string): string {

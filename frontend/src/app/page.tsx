@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { HOSPITAL_INFO, DEPARTMENTS, SERVICES, FACILITIES, AWARDS, CORE_VALUES, ROUTES } from '@/lib/constants';
 import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
 import Accordion from '@/components/ui/Accordion';
 import DoctorCard from '@/components/cards/DoctorCard';
@@ -15,7 +14,7 @@ import ServiceCard from '@/components/cards/ServiceCard';
 import TestimonialCard from '@/components/cards/TestimonialCard';
 import BlogCard from '@/components/cards/BlogCard';
 import BookAppointmentModal from '@/components/modals/BookAppointmentModal';
-import { ArrowRight, Phone, Calendar, Search, Users, Award, Heart, CheckCircle, Quote, Ambulance, Activity } from 'lucide-react';
+import { ArrowRight, Phone, Calendar, Search, Users, Award, Heart, CheckCircle, Ambulance, Activity, Star, Shield, Zap } from 'lucide-react';
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -32,10 +31,10 @@ const stagger = {
 };
 
 const testimonials = [
-  { patientName: 'Sarah Johnson', content: 'The care I received at Rawal Hospital was exceptional. The doctors were attentive and the staff was incredibly supportive throughout my treatment.', rating: 5, department: 'Cardiology' },
-  { patientName: 'Michael Chen', content: 'I traveled from abroad for my surgery and Rawal Hospital exceeded my expectations. World-class facilities and compassionate care.', rating: 5, department: 'Orthopedics' },
-  { patientName: 'Emily Davis', content: 'The maternity ward was fantastic. The nurses made my delivery experience so comfortable and safe. I am grateful to the entire team.', rating: 5, department: 'Gynecology' },
-  { patientName: 'Robert Wilson', content: 'After years of back pain, the team at Rawal helped me regain my quality of life. Professional, skilled, and caring.', rating: 4, department: 'Neurology' },
+  { patientName: 'Sarah Johnson', content: 'The care I received at Rawal Hospital was exceptional. The doctors were attentive and the staff was incredibly supportive throughout my treatment.', rating: 5, department: 'Cardiology', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150' },
+  { patientName: 'Michael Chen', content: 'I traveled from abroad for my surgery and Rawal Hospital exceeded my expectations. World-class facilities and compassionate care.', rating: 5, department: 'Orthopedics', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150' },
+  { patientName: 'Emily Davis', content: 'The maternity ward was fantastic. The nurses made my delivery experience so comfortable and safe. I am grateful to the entire team.', rating: 5, department: 'Gynecology', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150' },
+  { patientName: 'Robert Wilson', content: 'After years of back pain, the team at Rawal helped me regain my quality of life. Professional, skilled, and caring.', rating: 4, department: 'Neurology', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150' },
 ];
 
 const blogPosts = [
@@ -65,8 +64,8 @@ const galleryImages = [
 const SectionHeading = ({ label, title, description }: { label: string; title: string; description: string }) => (
   <motion.div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12" {...fadeUp}>
     <Badge variant="primary" size="lg" className="mb-4">{label}</Badge>
-    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 font-heading mb-3">{title}</h2>
-    <p className="text-sm sm:text-base text-gray-600">{description}</p>
+    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white font-heading mb-3">{title}</h2>
+    <p className="text-sm sm:text-base text-gray-400">{description}</p>
   </motion.div>
 );
 
@@ -81,57 +80,57 @@ export default function HomePage() {
   ], []);
 
   const stats = useMemo(() => [
-    { value: '50,000+', label: 'Patients Served', icon: Users, color: '#1565C0' },
-    { value: '150+', label: 'Expert Doctors', icon: Activity, color: '#4caf50' },
-    { value: '25+', label: 'Years Experience', icon: Award, color: '#f59e0b' },
-    { value: '500+', label: 'Hospital Beds', icon: Heart, color: '#8b5cf6' },
+    { value: '50,000+', label: 'Patients Served', icon: Users, color: '#3b82f6' },
+    { value: '150+', label: 'Expert Doctors', icon: Activity, color: '#f59e0b' },
+    { value: '25+', label: 'Years Experience', icon: Award, color: '#8b5cf6' },
+    { value: '500+', label: 'Hospital Beds', icon: Heart, color: '#ec4899' },
   ], []);
 
   return (
     <div>
       {/* Hero */}
       <section className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1565C0] via-[#0d47a1] to-[#0a3d8f]" />
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-green-400/20 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900" />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-primary-500/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-40 left-20 w-72 h-72 bg-amber-500/10 rounded-full blur-[100px]" />
         </div>
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 lg:py-40">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Badge variant="success" size="lg" className="mb-5 bg-white/15 text-white border-white/20">
-                <Activity className="h-4 w-4 mr-1.5" /> 24/7 Emergency Services Available
+              <Badge variant="success" size="lg" className="mb-5">
+                <Zap className="h-4 w-4 mr-1.5" /> 24/7 Emergency Services Available
               </Badge>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-heading leading-tight mb-5">
                 Your Health Is Our{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-blue-100">Top Priority</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Top Priority</span>
               </h1>
-              <p className="text-base sm:text-lg text-blue-100 max-w-xl mb-7 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-300 max-w-xl mb-7 leading-relaxed">
                 {HOSPITAL_INFO.description} With over 500+ beds, 150+ specialists, and cutting-edge technology, we are committed to your well-being.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Button size="lg" className="bg-white text-primary hover:bg-blue-50 shadow-xl" leftIcon={<Search className="h-5 w-5" />} onClick={() => window.location.href = ROUTES.doctors}>
+                <Button size="lg" leftIcon={<Search className="h-5 w-5" />} onClick={() => window.location.href = ROUTES.doctors}>
                   Find a Doctor
                 </Button>
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10" leftIcon={<Calendar className="h-5 w-5" />} onClick={() => setBookModalOpen(true)}>
+                <Button size="lg" variant="outline" leftIcon={<Calendar className="h-5 w-5" />} onClick={() => setBookModalOpen(true)}>
                   Book Appointment
                 </Button>
               </div>
-              <div className="flex items-center gap-6 mt-8 sm:mt-10 text-blue-200">
+              <div className="flex items-center gap-6 mt-8 sm:mt-10 text-gray-400">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/20 border-2 border-white/30 flex items-center justify-center">
-                      <span className="text-white text-[10px] sm:text-xs font-bold">R{i}</span>
+                    <div key={i} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-dark-600 border-2 border-dark-500 flex items-center justify-center">
+                      <span className="text-gray-300 text-[10px] sm:text-xs font-bold">R{i}</span>
                     </div>
                   ))}
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/30 border-2 border-white/50 flex items-center justify-center">
-                    <span className="text-white text-[10px] sm:text-xs font-bold">+2k</span>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-dark-600 border-2 border-dark-500 flex items-center justify-center">
+                    <span className="text-gray-300 text-[10px] sm:text-xs font-bold">+2k</span>
                   </div>
                 </div>
                 <div>
                   <p className="text-white font-semibold text-sm sm:text-base">Trusted by 50,000+</p>
-                  <p className="text-blue-200 text-xs sm:text-sm">Patients and families</p>
+                  <p className="text-gray-400 text-xs sm:text-sm">Patients and families</p>
                 </div>
               </div>
             </motion.div>
@@ -141,17 +140,17 @@ export default function HomePage() {
               className="hidden lg:block"
             >
               <div className="relative">
-                <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-primary-500/10">
                   <Image src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=600" alt="Modern hospital building" fill sizes="(max-width: 1024px) 0px, 50vw" priority className="object-cover" />
                 </div>
-                <div className="absolute -bottom-5 -left-5 bg-white/90 backdrop-blur-xl rounded-2xl p-4 sm:p-5 shadow-xl">
+                <div className="absolute -bottom-5 -left-5 bg-dark-700/90 backdrop-blur-xl border border-gray-700/30 rounded-2xl p-4 sm:p-5 shadow-xl">
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-green-50 flex items-center justify-center">
-                      <Ambulance className="h-6 w-6 sm:h-7 sm:w-7 text-green-600" />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-amber-500/20 flex items-center justify-center">
+                      <Ambulance className="h-6 w-6 sm:h-7 sm:w-7 text-amber-400" />
                     </div>
                     <div>
-                      <p className="text-xs sm:text-sm text-gray-500">Emergency</p>
-                      <p className="text-base sm:text-lg font-bold text-gray-900">{HOSPITAL_INFO.emergency}</p>
+                      <p className="text-xs sm:text-sm text-gray-400">Emergency</p>
+                      <p className="text-base sm:text-lg font-bold text-white">{HOSPITAL_INFO.emergency}</p>
                     </div>
                   </div>
                 </div>
@@ -162,7 +161,7 @@ export default function HomePage() {
       </section>
 
       {/* Emergency Banner */}
-      <div className="bg-red-600 py-3">
+      <div className="bg-gradient-to-r from-amber-600/90 to-amber-700/90 py-3 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-white text-center sm:text-left">
           <div className="flex items-center gap-2">
             <Phone className="h-5 w-5 animate-pulse shrink-0" />
@@ -175,16 +174,17 @@ export default function HomePage() {
       </div>
 
       {/* Stats */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-dark-800/50 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1551076805-e1869033e561?w=1200)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="max-w-7xl mx-auto px-4">
           <motion.div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" variants={stagger} initial="initial" whileInView="animate">
             {stats.map((stat) => (
-              <motion.div key={stat.label} variants={fadeUp} className="bg-white rounded-2xl p-5 sm:p-6 text-center border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: stat.color + '15' }}>
+              <motion.div key={stat.label} variants={fadeUp} className="bg-dark-700 rounded-2xl p-5 sm:p-6 text-center border border-gray-700/50 shadow-lg hover:shadow-primary-500/5 hover:border-primary-500/20 transition-all">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: stat.color + '20' }}>
                   <stat.icon className="h-5 w-5 sm:h-6 sm:w-6" style={{ color: stat.color }} />
                 </div>
-                <p className="text-xl sm:text-2xl font-bold text-gray-900 font-heading">{stat.value}</p>
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">{stat.label}</p>
+                <p className="text-xl sm:text-2xl font-bold text-white font-heading">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-gray-400 mt-1">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -197,17 +197,17 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <motion.div {...fadeUp}>
               <Badge variant="primary" size="lg" className="mb-4">About Us</Badge>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 font-heading mb-5">Providing World-Class Healthcare Since 1999</h2>
-              <p className="text-sm sm:text-base text-gray-600 leading-relaxed mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white font-heading mb-5">Providing World-Class Healthcare Since 1999</h2>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed mb-6">
                 Rawal Hospital has been at the forefront of medical excellence for over two decades. We combine advanced medical technology with compassionate care.
               </p>
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-8">
                 {CORE_VALUES.slice(0, 4).map((value) => (
                   <div key={value.title} className="flex items-start gap-2.5">
-                    <CheckCircle className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                    <CheckCircle className="h-5 w-5 text-primary-400 shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-semibold text-gray-900 text-xs sm:text-sm">{value.title}</p>
-                      <p className="text-[11px] sm:text-xs text-gray-500">{value.description}</p>
+                      <p className="font-semibold text-white text-xs sm:text-sm">{value.title}</p>
+                      <p className="text-[11px] sm:text-xs text-gray-400">{value.description}</p>
                     </div>
                   </div>
                 ))}
@@ -217,17 +217,17 @@ export default function HomePage() {
               </Link>
             </motion.div>
             <motion.div {...fadeUp} className="relative">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl shadow-primary-500/5">
                 <Image src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600" alt="Hospital interior" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
               </div>
-              <div className="absolute -bottom-3 -left-3 bg-white rounded-2xl p-3 sm:p-4 shadow-xl border border-gray-100">
+              <div className="absolute -bottom-3 -left-3 bg-dark-700 border border-gray-700/50 rounded-2xl p-3 sm:p-4 shadow-xl">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary-50 flex items-center justify-center">
-                    <Award className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary-500/20 flex items-center justify-center">
+                    <Award className="h-5 w-5 sm:h-6 sm:w-6 text-primary-400" />
                   </div>
                   <div>
-                    <p className="text-xs sm:text-sm font-bold text-gray-900">JCI Accredited</p>
-                    <p className="text-[10px] sm:text-xs text-gray-500">International Standards</p>
+                    <p className="text-xs sm:text-sm font-bold text-white">JCI Accredited</p>
+                    <p className="text-[10px] sm:text-xs text-gray-400">International Standards</p>
                   </div>
                 </div>
               </div>
@@ -237,7 +237,7 @@ export default function HomePage() {
       </section>
 
       {/* Services */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading label="Our Services" title="Comprehensive Medical Services" description="We offer a wide range of medical services to meet all your healthcare needs under one roof." />
           <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6" variants={stagger} initial="initial" whileInView="animate">
@@ -267,7 +267,7 @@ export default function HomePage() {
       </section>
 
       {/* Doctors */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading label="Our Doctors" title="Meet Our Expert Specialists" description="Our team of 150+ qualified doctors are dedicated to providing exceptional care." />
           <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" variants={stagger} initial="initial" whileInView="animate">
@@ -294,17 +294,17 @@ export default function HomePage() {
       </section>
 
       {/* Facilities */}
-      <section className="py-16 sm:py-20 bg-gray-50">
+      <section className="py-16 sm:py-20 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4">
           <SectionHeading label="Facilities" title="State-of-the-Art Facilities" description="We provide modern facilities to ensure a comfortable and safe experience." />
           <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" variants={stagger} initial="initial" whileInView="animate">
             {FACILITIES.map((facility, i) => (
-              <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl p-5 sm:p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary-50 flex items-center justify-center mb-3 sm:mb-4">
-                  <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <motion.div key={i} variants={fadeUp} className="bg-dark-700 rounded-2xl p-5 sm:p-6 border border-gray-700/50 shadow-lg hover:shadow-primary-500/5 hover:border-primary-500/20 transition-all">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary-500/20 flex items-center justify-center mb-3 sm:mb-4">
+                  <Heart className="h-5 w-5 sm:h-6 sm:w-6 text-primary-400" />
                 </div>
-                <h3 className="font-semibold text-gray-900 text-sm sm:text-base mb-1.5">{facility.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-500">{facility.description}</p>
+                <h3 className="font-semibold text-white text-sm sm:text-base mb-1.5">{facility.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-400">{facility.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -327,10 +327,21 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 sm:py-20 bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4">
+      <section className="py-16 sm:py-20 bg-dark-800/30">
+        <div className="max-w-7xl mx-auto px-4">
           <SectionHeading label="FAQ" title="Frequently Asked Questions" description="Find answers to commonly asked questions about our hospital and services." />
-          <motion.div {...fadeUp}><Accordion items={faqItems} /></motion.div>
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+            <motion.div className="lg:col-span-3" {...fadeUp}><Accordion items={faqItems} /></motion.div>
+            <motion.div {...fadeUp} className="hidden lg:block lg:col-span-2">
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-xl shadow-primary-500/5">
+                <Image src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600" alt="Medical consultation" fill sizes="(max-width: 1024px) 0px, 33vw" className="object-cover" />
+              </div>
+              <div className="mt-4 bg-dark-700 border border-gray-700/50 rounded-2xl p-5 text-center">
+                <p className="text-sm text-gray-400">Have more questions?</p>
+                <Link href={ROUTES.contact}><Button variant="outline" size="sm" className="mt-2">Contact Us</Button></Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -340,9 +351,9 @@ export default function HomePage() {
           <SectionHeading label="Gallery" title="Our Hospital in Pictures" description="Take a visual tour of our facilities and environment." />
           <motion.div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4" variants={stagger} initial="initial" whileInView="animate">
             {galleryImages.map((img, i) => (
-              <motion.div key={i} variants={fadeUp} className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer">
+              <motion.div key={i} variants={fadeUp} className="relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden group cursor-pointer border border-gray-700/30">
                 <Image src={img} alt={`Gallery ${i + 1}`} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors" />
               </motion.div>
             ))}
           </motion.div>
@@ -350,21 +361,21 @@ export default function HomePage() {
       </section>
 
       {/* Awards */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-dark-800/30">
         <div className="max-w-7xl mx-auto px-4">
           <motion.div className="text-center mb-8 sm:mb-10" {...fadeUp}>
             <Badge variant="primary" size="lg" className="mb-4">Accreditations</Badge>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 font-heading mb-2">Awards & Recognition</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white font-heading mb-2">Awards & Recognition</h2>
           </motion.div>
           <motion.div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4" variants={stagger} initial="initial" whileInView="animate">
             {AWARDS.map((award, i) => (
-              <motion.div key={i} variants={fadeUp} className="bg-white rounded-2xl p-4 sm:p-5 text-center border border-gray-100 shadow-sm">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary-50 flex items-center justify-center mx-auto mb-2">
-                  <Award className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+              <motion.div key={i} variants={fadeUp} className="bg-dark-700 rounded-2xl p-4 sm:p-5 text-center border border-gray-700/50 shadow-lg">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary-500/20 flex items-center justify-center mx-auto mb-2">
+                  <Award className="h-4 w-4 sm:h-5 sm:w-5 text-primary-400" />
                 </div>
-                <p className="text-lg sm:text-2xl font-bold text-primary font-heading">{award.year}</p>
-                <p className="text-[11px] sm:text-sm font-semibold text-gray-900 mt-1">{award.title}</p>
-                <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5">{award.organization}</p>
+                <p className="text-lg sm:text-2xl font-bold text-primary-400 font-heading">{award.year}</p>
+                <p className="text-[11px] sm:text-sm font-semibold text-white mt-1">{award.title}</p>
+                <p className="text-[10px] sm:text-xs text-gray-400 mt-0.5">{award.organization}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -372,25 +383,29 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-[#1565C0] via-[#0d47a1] to-[#0a3d8f] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-80 h-80 bg-blue-200 rounded-full blur-3xl" />
+      <section className="py-16 sm:py-20 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200" alt="" fill className="object-cover" sizes="100vw" />
+          <div className="absolute inset-0 bg-gradient-to-br from-dark-900/95 via-dark-900/90 to-dark-900/95" />
+        </div>
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-primary-500/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-10 right-10 w-80 h-80 bg-amber-500/20 rounded-full blur-[100px]" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <motion.div {...fadeUp}>
-            <Badge variant="success" size="lg" className="mb-6 bg-white/15 text-white border-white/20">24/7 Appointment Booking</Badge>
+            <Badge variant="success" size="lg" className="mb-6">24/7 Appointment Booking</Badge>
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white font-heading mb-5 leading-tight">Ready to Prioritize Your Health?</h2>
-            <p className="text-sm sm:text-lg text-blue-100 mb-8 max-w-2xl mx-auto">Schedule an appointment with our expert doctors today. We are here to provide you with the best medical care.</p>
+            <p className="text-sm sm:text-lg text-gray-300 mb-8 max-w-2xl mx-auto">Schedule an appointment with our expert doctors today. We are here to provide you with the best medical care.</p>
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-              <Button size="lg" className="bg-white text-primary hover:bg-blue-50 shadow-xl" leftIcon={<Calendar className="h-5 w-5" />} onClick={() => setBookModalOpen(true)}>
+              <Button size="lg" leftIcon={<Calendar className="h-5 w-5" />} onClick={() => setBookModalOpen(true)}>
                 Book Appointment Now
               </Button>
               <Link href={ROUTES.contact}>
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10" leftIcon={<Phone className="h-5 w-5" />}>Contact Us</Button>
+                <Button size="lg" variant="outline" leftIcon={<Phone className="h-5 w-5" />}>Contact Us</Button>
               </Link>
             </div>
-            <p className="text-blue-200 mt-5 sm:mt-6 text-xs sm:text-sm">Or call us at <a href={`tel:${HOSPITAL_INFO.phone}`} className="font-bold text-white underline">{HOSPITAL_INFO.phone}</a></p>
+            <p className="text-gray-400 mt-5 sm:mt-6 text-xs sm:text-sm">Or call us at <a href={`tel:${HOSPITAL_INFO.phone}`} className="font-bold text-primary-400 underline">{HOSPITAL_INFO.phone}</a></p>
           </motion.div>
         </div>
       </section>

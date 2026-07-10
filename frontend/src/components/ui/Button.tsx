@@ -14,12 +14,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: 'bg-primary text-white hover:bg-primary-700 shadow-md hover:shadow-lg',
-  secondary: 'bg-secondary text-white hover:bg-secondary-700 shadow-md',
-  outline: 'border-2 border-primary text-primary hover:bg-primary-50',
-  ghost: 'text-primary hover:bg-primary-50',
+  primary: 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/20 hover:shadow-primary-500/30',
+  secondary: 'bg-dark-600 text-gray-200 hover:bg-dark-700 shadow-md border border-gray-700',
+  outline: 'border-2 border-primary-500/50 text-primary-400 hover:bg-primary-500/10 hover:border-primary-400',
+  ghost: 'text-gray-300 hover:text-white hover:bg-dark-600',
   danger: 'bg-red-600 text-white hover:bg-red-700 shadow-md',
-  success: 'bg-accent text-white hover:bg-accent-700 shadow-md',
+  success: 'bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-500/20',
 };
 
 const sizes = {
@@ -36,7 +36,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover={{ scale: disabled ? 1 : 1.02 }}
         whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={cn(
-          'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+          'inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 focus:ring-offset-dark disabled:opacity-50 disabled:cursor-not-allowed',
           variants[variant],
           sizes[size],
           className

@@ -78,34 +78,34 @@ export default function Sidebar() {
   return (
     <>
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       <aside
         className={cn(
-          'fixed top-0 left-0 z-50 h-full bg-white border-r border-gray-100 shadow-lg transition-transform duration-300 flex flex-col',
+          'fixed top-0 left-0 z-50 h-full bg-dark-800 border-r border-gray-800 shadow-2xl transition-transform duration-300 flex flex-col',
           sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full lg:translate-x-0 lg:w-20'
         )}
       >
-        <div className="flex items-center justify-between px-4 h-16 border-b border-gray-100 shrink-0">
+        <div className="flex items-center justify-between px-4 h-16 border-b border-gray-800 shrink-0">
           <Link href="/" className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-700 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shrink-0">
               <Building2 className="h-4 w-4 text-white" />
             </div>
-            {sidebarOpen && <span className="text-sm font-bold text-gray-900 font-heading whitespace-nowrap">Rawal Hospital</span>}
+            {sidebarOpen && <span className="text-sm font-bold text-white font-heading whitespace-nowrap">Rawal Hospital</span>}
           </Link>
-          <button onClick={toggleSidebar} className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 shrink-0">
-            <X className="h-5 w-5" />
+          <button onClick={toggleSidebar} className="lg:hidden p-1.5 rounded-lg hover:bg-dark-600 shrink-0">
+            <X className="h-5 w-5 text-gray-300" />
           </button>
         </div>
 
-        <div className="px-4 py-3 border-b border-gray-100 shrink-0">
+        <div className="px-4 py-3 border-b border-gray-800 shrink-0">
           <div className="flex items-center gap-3">
             <Avatar name={`${user?.firstName} ${user?.lastName}`} size="sm" />
             {sidebarOpen && (
               <div className="overflow-hidden min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{user?.firstName} {user?.lastName}</p>
-                <p className="text-xs text-gray-500 capitalize truncate">{user?.role?.replace('_', ' ')}</p>
+                <p className="text-sm font-medium text-white truncate">{user?.firstName} {user?.lastName}</p>
+                <p className="text-xs text-gray-400 capitalize truncate">{user?.role?.replace('_', ' ')}</p>
               </div>
             )}
           </div>
@@ -122,8 +122,8 @@ export default function Sidebar() {
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-primary-50 text-primary shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-primary-500/10 text-primary-400 shadow-sm'
+                    : 'text-gray-400 hover:bg-dark-600 hover:text-white'
                 )}
                 title={!sidebarOpen ? item.label : undefined}
               >
@@ -134,11 +134,11 @@ export default function Sidebar() {
           })}
         </nav>
 
-        <div className="p-3 border-t border-gray-100 shrink-0">
+        <div className="p-3 border-t border-gray-800 shrink-0">
           <button
             onClick={logout}
             className={cn(
-              'flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 transition-all',
+              'flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all',
               !sidebarOpen && 'justify-center'
             )}
             title={!sidebarOpen ? 'Logout' : undefined}

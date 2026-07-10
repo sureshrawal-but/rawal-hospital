@@ -9,35 +9,59 @@
   }
 
   body {
-    @apply bg-white text-gray-900 font-sans antialiased;
+    @apply bg-dark text-gray-100 font-sans antialiased;
   }
 
   * {
-    @apply border-gray-200;
+    @apply border-gray-800;
+  }
+
+  ::selection {
+    @apply bg-primary-500/30 text-white;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg;
+    @apply bg-dark-700/70 backdrop-blur-xl border border-gray-700/30 shadow-lg;
   }
 
   .glass-dark {
-    @apply bg-gray-900/70 backdrop-blur-xl border border-gray-700/30 shadow-lg;
+    @apply bg-dark-900/90 backdrop-blur-xl border border-gray-700/20 shadow-lg;
+  }
+
+  .card-highlight {
+    @apply border border-gray-700/50 bg-dark-700 shadow-lg hover:border-primary-500/30 hover:shadow-primary-500/5 transition-all duration-300;
   }
 
   .gradient-primary {
-    @apply bg-gradient-to-br from-primary to-primary-700;
+    @apply bg-gradient-to-br from-primary-500 to-primary-700;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #0a0f1a 0%, #0f172a 40%, #1a2332 70%, #0f172a 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300;
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+  }
+
+  .glow-amber {
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.15);
   }
 }
 
 @layer utilities {
   .animate-shimmer {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #1a2332 25%, #1e293b 50%, #1a2332 75%);
     background-size: 200% 100%;
     animation: shimmer 2s infinite linear;
   }
@@ -54,8 +78,8 @@
 
   .scrollbar-custom::-webkit-scrollbar { width: 6px; height: 6px; }
   .scrollbar-custom::-webkit-scrollbar-track { background: transparent; }
-  .scrollbar-custom::-webkit-scrollbar-thumb { @apply bg-gray-300 rounded-full; }
-  .scrollbar-custom::-webkit-scrollbar-thumb:hover { @apply bg-gray-400; }
+  .scrollbar-custom::-webkit-scrollbar-thumb { @apply bg-gray-700 rounded-full; }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover { @apply bg-gray-600; }
 }
 
 @keyframes shimmer {

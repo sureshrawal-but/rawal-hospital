@@ -53,19 +53,19 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-white/80 backdrop-blur-xl shadow-sm border-b border-gray-100/50'
+          ? 'bg-dark-800/80 backdrop-blur-xl shadow-lg border-b border-gray-800/50'
           : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-700 flex items-center justify-center shadow-lg">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-lg shadow-primary-500/20">
               <Building2 className="h-5 w-5 text-white" />
             </div>
             <div className="hidden xs:block">
-              <span className="text-lg font-bold text-gray-900 font-heading">Rawal</span>
-              <span className="text-lg font-bold text-primary font-heading">Hospital</span>
+              <span className="text-lg font-bold text-white font-heading">Rawal</span>
+              <span className="text-lg font-bold text-primary-400 font-heading">Hospital</span>
             </div>
           </Link>
 
@@ -74,7 +74,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary rounded-lg hover:bg-primary-50/50 transition-all"
+                className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white rounded-lg hover:bg-dark-600 transition-all"
               >
                 {link.label}
               </Link>
@@ -84,7 +84,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href={`tel:${HOSPITAL_INFO.emergency}`}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-xl text-sm font-medium hover:bg-red-500/20 transition-colors"
             >
               <Phone className="h-4 w-4 animate-pulse shrink-0" />
               <span className="hidden xl:inline">Emergency: {HOSPITAL_INFO.emergency}</span>
@@ -94,11 +94,11 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-dark-600 transition-colors"
                 >
                   <Avatar name={`${user?.firstName} ${user?.lastName}`} size="sm" />
-                  <span className="text-sm font-medium text-gray-700 hidden md:block">{user?.firstName}</span>
-                  <ChevronDown className={cn('h-4 w-4 text-gray-400 transition-transform shrink-0', dropdownOpen && 'rotate-180')} />
+                  <span className="text-sm font-medium text-gray-300 hidden md:block">{user?.firstName}</span>
+                  <ChevronDown className={cn('h-4 w-4 text-gray-500 transition-transform shrink-0', dropdownOpen && 'rotate-180')} />
                 </button>
                 <AnimatePresence>
                   {dropdownOpen && (
@@ -106,19 +106,19 @@ export default function Navbar() {
                       initial={{ opacity: 0, y: 10, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 py-2"
+                      className="absolute right-0 mt-2 w-56 bg-dark-700 rounded-2xl shadow-xl border border-gray-700 py-2"
                     >
-                      <div className="px-4 py-3 border-b border-gray-50">
-                        <p className="text-sm font-semibold text-gray-900 truncate">{user?.firstName} {user?.lastName}</p>
-                        <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+                      <div className="px-4 py-3 border-b border-gray-700">
+                        <p className="text-sm font-semibold text-white truncate">{user?.firstName} {user?.lastName}</p>
+                        <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
                       </div>
-                      <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                      <Link href="/dashboard" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-dark-600" onClick={() => setDropdownOpen(false)}>
                         <LayoutDashboard className="h-4 w-4" /> Dashboard
                       </Link>
-                      <Link href="/appointments" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setDropdownOpen(false)}>
+                      <Link href="/appointments" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-dark-600" onClick={() => setDropdownOpen(false)}>
                         <Calendar className="h-4 w-4" /> My Appointments
                       </Link>
-                      <button onClick={() => { logout(); setDropdownOpen(false); }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full">
+                      <button onClick={() => { logout(); setDropdownOpen(false); }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 w-full">
                         <LogOut className="h-4 w-4" /> Logout
                       </button>
                     </motion.div>
@@ -135,10 +135,10 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2.5 rounded-xl hover:bg-white/20 transition-colors"
+            className="lg:hidden p-2.5 rounded-xl hover:bg-white/5 transition-colors"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
           </button>
         </div>
       </div>
@@ -150,7 +150,7 @@ export default function Navbar() {
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 top-16 lg:hidden bg-white z-40 overflow-y-auto"
+            className="fixed inset-0 top-16 lg:hidden bg-dark-900 z-40 overflow-y-auto"
           >
             <div className="px-4 py-6 space-y-1">
               {navLinks.map((link, i) => (
@@ -158,22 +158,22 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={closeMobile}
-                    className="block px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 hover:text-primary rounded-xl transition-colors active:bg-primary-100"
+                    className="block px-4 py-4 text-base font-medium text-gray-300 hover:bg-primary-500/10 hover:text-white rounded-xl transition-colors active:bg-primary-500/20"
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
-              <hr className="my-4" />
+              <hr className="my-4 border-gray-700" />
               {isAuthenticated ? (
                 <>
-                  <Link href="/dashboard" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 rounded-xl">
+                  <Link href="/dashboard" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-300 hover:bg-primary-500/10 rounded-xl">
                     <LayoutDashboard className="h-5 w-5" /> Dashboard
                   </Link>
-                  <Link href="/appointments" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-700 hover:bg-primary-50 rounded-xl">
+                  <Link href="/appointments" onClick={closeMobile} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-gray-300 hover:bg-primary-500/10 rounded-xl">
                     <Calendar className="h-5 w-5" /> My Appointments
                   </Link>
-                  <button onClick={() => { logout(); closeMobile(); }} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-red-600 hover:bg-red-50 rounded-xl w-full">
+                  <button onClick={() => { logout(); closeMobile(); }} className="flex items-center gap-3 px-4 py-4 text-base font-medium text-red-400 hover:bg-red-500/10 rounded-xl w-full">
                     <LogOut className="h-5 w-5" /> Logout
                   </button>
                 </>
@@ -188,7 +188,7 @@ export default function Navbar() {
                 </div>
               )}
               <div className="mt-6 px-2">
-                <a href={`tel:${HOSPITAL_INFO.emergency}`} className="flex items-center justify-center gap-2 px-4 py-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium active:bg-red-100">
+                <a href={`tel:${HOSPITAL_INFO.emergency}`} className="flex items-center justify-center gap-2 px-4 py-4 bg-red-500/10 text-red-400 rounded-xl text-sm font-medium active:bg-red-500/20">
                   <Phone className="h-5 w-5" /> Emergency: {HOSPITAL_INFO.emergency}
                 </a>
               </div>
